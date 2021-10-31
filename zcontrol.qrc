@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/pict">
+        <file alias="logo">resource/CAMreflected.png</file>
+        <file alias="bug_green">resource/bug_green.png</file>
+        <file alias="bug_red">resource/bug_red.png</file>
+        <file alias="bug_yellow">resource/bug_yellow.png</file>
+        <file alias="hinge">resource/hinge.png</file>
+        <file alias="ladder">resource/ladder.png</file>
+        <file alias="reset">resource/nav_down_red.png</file>
+        <file alias="prev">resource/nav_left_green.png</file>
+        <file alias="next">resource/nav_right_green.png</file>
+        <file alias="step_wait">resource/step_pause.png</file>
+        <file alias="step_on">resource/step_run.png</file>
+    </qresource>
+</RCC>

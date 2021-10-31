@@ -13,10 +13,104 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>2</number>
+    </property>
+    <property name="topMargin">
+     <number>2</number>
+    </property>
+    <property name="rightMargin">
+     <number>2</number>
+    </property>
+    <property name="bottomMargin">
+     <number>2</number>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QToolButton" name="toolButton">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="zcontrol.qrc">
+          <normaloff>:/pict/logo</normaloff>:/pict/logo</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>128</width>
+          <height>96</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuActions">
+    <property name="title">
+     <string>Actions</string>
+    </property>
+    <addaction name="actionStart_Ethernet_IP"/>
+    <addaction name="actionStop_Ethernet_IP"/>
+   </widget>
+   <addaction name="menuActions"/>
+  </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionStart_Ethernet_IP">
+   <property name="text">
+    <string>Start Ethernet/IP</string>
+   </property>
+  </action>
+  <action name="actionStop_Ethernet_IP">
+   <property name="text">
+    <string>Stop Ethernet/IP</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="zcontrol.qrc"/>
+ </resources>
  <connections/>
 </ui>

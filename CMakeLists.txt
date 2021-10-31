@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Network  Widgets LinguistTools REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Network  Widgets LinguistTools REQUIRED)
 
 set(TS_FILES ZControl_en_GB.ts)
 
@@ -21,8 +21,12 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        EtherNetIP/zEthernetIP.cpp
+        EtherNetIP/zEthernetIP.h
+        zcontrol.qrc
         ${TS_FILES}
 )
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/zcontrol.rc")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ZControl
@@ -51,7 +55,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(ZControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(ZControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
 
 set_target_properties(ZControl PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
