@@ -97,4 +97,28 @@ void MainWindow::timerEvent(QTimerEvent* event)
             m_serverRemote = nullptr;
         }
     }
+    if(ui->stackedWidget->currentIndex() == 2)
+    {
+        ui->toPc->clear();
+        QByteArray t = m_plcs.toPcData();
+        int i = 0;
+        for(auto v: t)
+        {
+            if(v)
+            {
+                ui->toPc->addItem(QString("topc[%1] = %2").arg(i, 2, 10, QChar(' ')).arg(v, 4, 16, QChar('0')));
+            }
+            i++;
+        }
+        QByteArray f = m_plcs.fromPcData();
+        i = 0;
+        for(auto v: f)
+        {
+            if(v)
+            {
+                ui->toPc->addItem(QString("frompc[%1] = %2").arg(i, 2, 10, QChar(' ')).arg(v, 4, 16, QChar('0')));
+            }
+            i++;
+        }
+    }
 }

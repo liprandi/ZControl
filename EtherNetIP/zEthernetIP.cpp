@@ -116,7 +116,7 @@ bool ZEthernetIp::getReadPlc()
         ENCAPH tmp;
         memset(&tmp, 0, sizeof(tmp));
 
-        if(m_socket.waitForReadyRead(10))
+        if(m_socket.waitForReadyRead(1000))
         {
             if(m_socket.bytesAvailable() >= (qint64)sizeof(tmp))
             {
@@ -194,12 +194,7 @@ bool ZEthernetIp::reqReadPlc(const QByteArray& tag, int len)
         {
             if(m_socket.waitForBytesWritten(1000))
             {
-                if(m_socket.waitForReadyRead(1000))
-                {
-                    ret = true;
-                }
-                else
-                    qDebug() << QObject::tr("no data replied");
+                ret = true;
             }
             else
                 qDebug() << QObject::tr("error no data written");

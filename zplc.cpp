@@ -83,7 +83,7 @@ void ZPlc::run()
             delete m_plc;
             m_plc = new ZEthernetIp(m_ip, m_backplane, m_slot);
         }
-        while(ok)
+        while(!m_quit && ok)
         {
             // read data
             {
@@ -96,15 +96,8 @@ void ZPlc::run()
                     {
                         i->m_last = t;
                         if(m_plc->reqReadPlc(i->m_tag, i->m_len))
-                        {
                             if(m_plc->getReadPlc())
                                 i->m_data = m_plc->readData();
-                            else
-                                ok = false;
-
-                        }
-                        else
-                            ok = false;
                     }
                 }
             }
@@ -122,8 +115,7 @@ void ZPlc::run()
                     m_mutexWrite.unlock();
                 }
             }
-            if(ok)
-                ok = m_plc->isConnected();
+            ok = m_plc->isConnected();
             msleep(100);
         }
         delete m_plc;

@@ -36,9 +36,17 @@ private:
 public:
     explicit Plcs(QSettings& settings, QObject *parent = nullptr);
 
+public: // inline
+    QByteArray toPcData()
+    {
+        return m_b.getData(1);
+    }
+    QByteArray fromPcData()
+    {
+        return m_b.getData(2);
+    }
 private:
     void configPlc(const QByteArray& name, ZPlc& plc);
-
 signals:
 
 private:

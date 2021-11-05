@@ -30,7 +30,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="188"/>
-        <location filename="mainwindow.ui" line="473"/>
+        <location filename="mainwindow.ui" line="476"/>
         <source>Telegram</source>
         <translation type="unfinished"></translation>
     </message>
@@ -75,22 +75,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="484"/>
+        <location filename="mainwindow.ui" line="487"/>
         <source>http://www.liprandi.com/projects/betim/zServicePHP.php</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="509"/>
+        <location filename="mainwindow.ui" line="512"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="519"/>
+        <location filename="mainwindow.ui" line="522"/>
         <source>Start Ethernet/IP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="524"/>
+        <location filename="mainwindow.ui" line="527"/>
         <source>Stop Ethernet/IP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -119,14 +119,14 @@
     <message>
         <location filename="EtherNetIP/zethernetip.cpp" line="55"/>
         <location filename="EtherNetIP/zethernetip.cpp" line="101"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="205"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="200"/>
         <source>error no data written</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="EtherNetIP/zethernetip.cpp" line="58"/>
         <location filename="EtherNetIP/zethernetip.cpp" line="104"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="208"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="203"/>
         <source>error in written data size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -138,11 +138,6 @@
     <message>
         <location filename="EtherNetIP/zethernetip.cpp" line="154"/>
         <source>error in read data available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="202"/>
-        <source>no data replied</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
