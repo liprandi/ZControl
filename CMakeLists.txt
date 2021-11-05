@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Network  Widgets LinguistTools REQUIRED)
@@ -17,13 +17,55 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Network  Widgets LinguistTools REQ
 set(TS_FILES ZControl_en_GB.ts)
 
 set(PROJECT_SOURCES
+# main project
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        EtherNetIP/zEthernetIP.cpp
-        EtherNetIP/zEthernetIP.h
         zcontrol.qrc
+        zcontrol.rc
+        zplc.h
+        zplc.cpp
+        plcs.h
+        plcs.cpp
+# Ethernet/IP communication
+        EtherNetIP/zethernetip.cpp
+        EtherNetIP/zethernetip.h
+# Database interface
+        zmariadb.h
+        zmariadb.cpp
+        mysql/mysql.h
+        mysql/ma_list.h
+        mysql/mariadb_com.h
+        mysql/mariadb_ctype.h
+        mysql/mariadb_version.h
+        mysql/mariadb_stmt.h
+# http client
+        http/zhttpservice.h
+        http/zhttpservice.cpp
+# http server
+        httpserver/httpconnectionhandler.cpp
+        httpserver/httpconnectionhandler.h
+        httpserver/httpconnectionhandlerpool.cpp
+        httpserver/httpconnectionhandlerpool.h
+        httpserver/httpcookie.cpp
+        httpserver/httpcookie.h
+        httpserver/httpglobal.cpp
+        httpserver/httpglobal.h
+        httpserver/httplistener.cpp
+        httpserver/httplistener.h
+        httpserver/httprequest.cpp
+        httpserver/httprequest.h
+        httpserver/httprequesthandler.cpp
+        httpserver/httprequesthandler.h
+        httpserver/httpresponse.cpp
+        httpserver/httpresponse.h
+        httpserver/httpsession.cpp
+        httpserver/httpsession.h
+        httpserver/httpsessionstore.cpp
+        httpserver/httpsessionstore.h
+        httpserver/staticfilecontroller.cpp
+        httpserver/staticfilecontroller.h
         ${TS_FILES}
 )
 set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/zcontrol.rc")
@@ -55,7 +97,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(ZControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
+target_link_libraries(ZControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network ${CMAKE_SOURCE_DIR}/libs/libmariadb.lib)
 
 set_target_properties(ZControl PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

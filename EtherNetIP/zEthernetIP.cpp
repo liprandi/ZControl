@@ -1,11 +1,11 @@
-#include "zEthernetIP.h"
+#include "zethernetip.h"
 
 /* ----------------------------------------------------------
    Prima operazione: registrazione
    la comunicazione in Ethernet/IP richiede la registrazione
    del client
    ---------------------------------------------------------- */
-zEthernetIp::zEthernetIp(const QString& ip, int backplane, int slot)
+ZEthernetIp::ZEthernetIp(const QString& ip, int backplane, int slot)
 {
     m_session = 0;
     m_backplane = backplane;
@@ -63,7 +63,7 @@ zEthernetIp::zEthernetIp(const QString& ip, int backplane, int slot)
    Ultima operazione: deregistrazione
    chiusura del servizio di comunicazione con ControlLogix
    ---------------------------------------------------------- */
-zEthernetIp::~zEthernetIp()
+ZEthernetIp::~ZEthernetIp()
 {
     if(isConnected())
     {
@@ -108,7 +108,7 @@ zEthernetIp::~zEthernetIp()
 /* ----------------------------------------------------------
   esecuzione della lettura di un buffer da PLC
    ---------------------------------------------------------- */
-bool zEthernetIp::getReadPlc()
+bool ZEthernetIp::getReadPlc()
 {
     bool ret = false;
     if(isConnected())
@@ -160,7 +160,7 @@ bool zEthernetIp::getReadPlc()
 /* ----------------------------------------------------------
   richiesta di lettura di un buffer da PLC
    ---------------------------------------------------------- */
-bool zEthernetIp::reqReadPlc(const QByteArray& tag, int len)
+bool ZEthernetIp::reqReadPlc(const QByteArray& tag, int len)
 {
     bool ret = false;
 
@@ -212,9 +212,10 @@ bool zEthernetIp::reqReadPlc(const QByteArray& tag, int len)
 /* ----------------------------------------------------------
   esecuzione della scrittura di un buffer su PLC
    ---------------------------------------------------------- */
-bool zEthernetIp::writePlc(const QByteArray &tag, CIP_TYPE type)
+bool ZEthernetIp::writePlc(const QByteArray &tag, CIP_TYPE type, const QByteArray &data)
 {
     bool ret = false;
+    m_dataOut = data;
     m_writeTag = tag;
     m_writeType = type;
     m_writeLength = m_dataOut.length() / bytesOfType(type);

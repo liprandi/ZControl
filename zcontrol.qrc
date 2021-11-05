@@ -11,5 +11,6 @@
         <file alias="next">resource/nav_right_green.png</file>
         <file alias="step_wait">resource/step_pause.png</file>
         <file alias="step_on">resource/step_run.png</file>
+        <file alias="telegram">resource/telegram.png</file>
     </qresource>
 </RCC>

@@ -8,5 +8,142 @@
         <source>MainWindow</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="mainwindow.ui" line="41"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="70"/>
+        <source>Hinge Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="105"/>
+        <source>Hinge Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="153"/>
+        <source>Debug/Logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="188"/>
+        <location filename="mainwindow.ui" line="473"/>
+        <source>Telegram</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="232"/>
+        <source>CAM do Brasil Ltda</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="260"/>
+        <source>Live:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="274"/>
+        <source>Step Number:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="324"/>
+        <source>Previous Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="350"/>
+        <source>Next Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="389"/>
+        <source>Reset Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="415"/>
+        <source>Step By Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="447"/>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="484"/>
+        <source>http://www.liprandi.com/projects/betim/zServicePHP.php</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="509"/>
+        <source>Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="519"/>
+        <source>Start Ethernet/IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="524"/>
+        <source>Stop Ethernet/IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="46"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="92"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="148"/>
+        <source>error alocated data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="49"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="95"/>
+        <source>error read data from Tcp/Ip socket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="52"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="98"/>
+        <source>error no data replied</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="55"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="101"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="205"/>
+        <source>error no data written</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="58"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="104"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="208"/>
+        <source>error in written data size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="151"/>
+        <source>error in read data size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="154"/>
+        <source>error in read data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="202"/>
+        <source>no data replied</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

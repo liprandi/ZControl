@@ -30,15 +30,15 @@ typedef struct  encaph
     quint32 opt;         /* Options flags */
 }ENCAPH;
 
-class zEthernetIp
+class ZEthernetIp
 {
 public:
-    zEthernetIp(const QString& ip, int backplane, int slot);        // apertura del servizio (registrazione)
-    ~zEthernetIp();
+    ZEthernetIp(const QString& ip, int backplane, int slot);        // apertura del servizio (registrazione)
+    ~ZEthernetIp();
 
     bool reqReadPlc(const QByteArray &tag, int len);
     bool getReadPlc();
-    bool writePlc(const QByteArray& tag, CIP_TYPE type);
+    bool writePlc(const QByteArray& tag, CIP_TYPE type, const QByteArray& data);
 public:   // inline function
     QByteArray& readData(){return m_dataIn;}
     CIP_TYPE readType(){return (CIP_TYPE)m_readType;}
