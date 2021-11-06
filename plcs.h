@@ -1,12 +1,12 @@
 #ifndef PLCS_H
 #define PLCS_H
 
-#include <QObject>
+#include <QThread>
 #include <QSettings>
 #include <QList>
 #include "zplc.h"
 
-class Plcs : public QObject
+class Plcs : public QThread
 {
     Q_OBJECT
 private:
@@ -35,21 +35,14 @@ private:
 
 public:
     explicit Plcs(QSettings& settings, QObject *parent = nullptr);
+    ~Plcs();
 
-public: // inline
-    QByteArray toPcData()
-    {
-        return m_b.getData(1);
-    }
-    QByteArray fromPcData()
-    {
-        return m_b.getData(2);
-    }
 private:
     void configPlc(const QByteArray& name, ZPlc& plc);
+    virtual void run() override;
 signals:
 
-private:
+public:
     ZPlc m_a;
     ZPlc m_b;
     ZPlc m_skids;
@@ -57,6 +50,9 @@ private:
     QList<Addr> m_addr;     // address for the 3 plcs
     QList<AreaReadFromPlc> m_in;  // area to read from ferratura A
     QList<AreaReadToPlc> m_out;  // area to read from ferratura A
+
+    bool m_run;
+    bool m_quit;
 };
 
 #endif // PLCS_H

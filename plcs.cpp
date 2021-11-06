@@ -1,7 +1,9 @@
 #include "plcs.h"
 
 Plcs::Plcs(QSettings &settings, QObject *parent) :
-    QObject(parent)
+    QThread(parent)
+  , m_run(false)
+  , m_quit(false)
 {
     bool ok = true;
     m_addr.clear();
@@ -67,7 +69,16 @@ Plcs::Plcs(QSettings &settings, QObject *parent) :
     configPlc("LFA", m_a);
     configPlc("LFB", m_b);
     configPlc("SKIDS", m_skids);
+    start();
 }
+
+Plcs::~Plcs()
+{
+    m_quit = true;
+    if(m_run)
+        msleep(500);
+}
+
 void Plcs::configPlc(const QByteArray& name, ZPlc& plc)
 {
     for(const auto& addr: m_addr)
@@ -78,11 +89,34 @@ void Plcs::configPlc(const QByteArray& name, ZPlc& plc)
             {
                 if(!area.plc.compare(addr.name))  // ferratura line 1
                 {
-                    plc.setAreaIn(area.id, area.tag, area.len);
+                    plc.setAreaIn(area.id, area.tag, area.len, 100ms);
                 }
             }
             plc.setAddress(addr.ip, addr.backplane, addr.slot);
             break;
         }
     }
+}
+void Plcs::run()
+{
+    m_run = true;
+    while(!m_quit)
+    {
+        m_a.cycleRead();
+        m_b.cycleRead();
+        m_skids.cycleRead();
+        QByteArray from = m_b.getData(1);
+        QByteArray to = m_skids.getData(2);
+        if(from.length() > 0 && to.length() > 0 && m_out.count() >=  2)
+        {
+            if(!m_out[0].plc.compare("SKIDS"))
+                m_skids.writeData(m_out[0].tag, m_out[0].type, from);
+            if(!m_out[1].plc.compare("LFB"))
+                m_b.writeData(m_out[1].tag, m_out[1].type, to);
+        }
+        m_a.cycleWrite();
+        m_b.cycleWrite();
+        m_skids.cycleWrite();
+    }
+    m_run = false;
 }

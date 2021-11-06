@@ -1,13 +1,14 @@
 #ifndef ZPLC_H
 #define ZPLC_H
 
-#include <QThread>
+#include <QObject>
 #include <chrono>
+#include <mutex>
 #include <EtherNetIP/zethernetip.h>
 
 using namespace std::chrono_literals;
 
-class ZPlc : public QThread
+class ZPlc : public QObject
 {
     Q_OBJECT
 public:
@@ -45,12 +46,14 @@ public:
     void setAreaIn(int id, const QByteArray &tag, int len, std::chrono::duration<__int64, std::milli> msec = 500ms);
     void writeData(const QByteArray& tag, CIP_TYPE type, const QByteArray& data);
     QByteArray getData(int id);
+    void cycleRead();
+    void cycleWrite();
 protected:
-    virtual void run() override;
+//    virtual void run() override;
 
 private:
-    bool m_run;
-    bool m_quit;
+//    bool m_run;
+//    bool m_quit;
     std::list<In*> m_in;
     std::list<Out*> m_out;
 

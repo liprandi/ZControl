@@ -100,7 +100,7 @@ void MainWindow::timerEvent(QTimerEvent* event)
     if(ui->stackedWidget->currentIndex() == 2)
     {
         ui->toPc->clear();
-        QByteArray t = m_plcs.toPcData();
+        QByteArray t = m_plcs.m_b.getData(1);
         int i = 0;
         for(auto v: t)
         {
@@ -110,7 +110,7 @@ void MainWindow::timerEvent(QTimerEvent* event)
             }
             i++;
         }
-        QByteArray f = m_plcs.fromPcData();
+        QByteArray f = m_plcs.m_skids.getData(2);
         i = 0;
         for(auto v: f)
         {

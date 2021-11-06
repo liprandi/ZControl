@@ -21,13 +21,16 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
-        mainwindow.ui
-        zcontrol.qrc
-        zcontrol.rc
         zplc.h
         zplc.cpp
         plcs.h
         plcs.cpp
+# complementary archieves
+        mainwindow.ui
+        zcontrol.qrc
+        zcontrol.rc
+        zcontrol.ini
+        zcontrol.ico
 # Ethernet/IP communication
         EtherNetIP/zethernetip.cpp
         EtherNetIP/zethernetip.h
