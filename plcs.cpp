@@ -107,6 +107,7 @@ void Plcs::run()
         m_skids.cycleRead();
         QByteArray from = m_b.getData(1);
         QByteArray to = m_skids.getData(2);
+        externalCommand(to);
         if(from.length() > 0 && to.length() > 0 && m_out.count() >=  2)
         {
             if(!m_out[0].plc.compare("SKIDS"))
@@ -119,4 +120,41 @@ void Plcs::run()
         m_skids.cycleWrite();
     }
     m_run = false;
+}
+void  Plcs::setCommand(int byte, unsigned value)
+{
+    const std::lock_guard<std::mutex> lock(m_mutexCommand);
+    bool found = false;
+    for(int i = 0; i < m_command.length(); i++)
+    {
+        const ExternalCommand& cmd = m_command[i];
+        if(cmd.byte == byte)
+        {
+            if(value == 0)
+              m_command.remove(i);
+            found = true;
+            break;
+        }
+    }
+    if(value != 0 && !found)
+    {
+        m_command.append({byte, value});
+    }
+}
+void  Plcs::resetAllCommand()
+{
+    const std::lock_guard<std::mutex> lock(m_mutexCommand);
+    m_command.clear();
+}
+
+void Plcs::externalCommand(QByteArray& data)
+{
+    const std::lock_guard<std::mutex> lock(m_mutexCommand);
+    for(auto cmd: m_command)
+    {
+        if(cmd.byte < data.length())
+        {
+            data[cmd.byte] = cmd.value;
+        }
+    }
 }

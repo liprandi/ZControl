@@ -4,15 +4,10 @@ ZPlc::ZPlc(QObject *parent) :
     QObject()
   , m_plc(nullptr)
 {
-//    m_run = false;
-//    m_quit = false;
 }
 
 ZPlc::~ZPlc()
 {
-//    m_quit = true;
-//    while(m_run)
-//        msleep(100);
     if(m_plc)
         delete m_plc;
 }
@@ -41,7 +36,6 @@ void ZPlc::setAddress(const QString& ip, int backplane, int slot)
     m_ip = ip;
     m_backplane = backplane;
     m_slot = slot;
-//    start();
 }
 
 void ZPlc::setAreaIn(int id, const QByteArray &tag, int len, std::chrono::duration<__int64, std::milli> msec)
@@ -69,34 +63,6 @@ QByteArray ZPlc::getData(int id)
     }
     return QByteArray();
 }
-/*
-void ZPlc::run()
-{
-    bool ok = true;
-    m_run = true;
-
-    while(!m_quit)
-    {
-        ok = true;
-        if(!m_plc || !m_plc->isConnected())
-        {
-            delete m_plc;
-            m_plc = new ZEthernetIp(m_ip, m_backplane, m_slot);
-        }
-        while(!m_quit && ok)
-        {
-            cycleRead();
-            cycleWrite();
-            ok = m_plc->isConnected();
-            msleep(100);
-        }
-        delete m_plc;
-        m_plc = nullptr;
-        sleep(3);
-    }
-    m_run = false;
-    m_quit = false;
-}*/
 void ZPlc::cycleRead()
 {
     if(!m_plc || !m_plc->isConnected())

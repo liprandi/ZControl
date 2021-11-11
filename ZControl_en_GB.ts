@@ -2,6 +2,44 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_GB">
 <context>
+    <name>CycleWindow</name>
+    <message>
+        <location filename="cyclewindow.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cyclewindow.ui" line="22"/>
+        <source>Live:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cyclewindow.ui" line="42"/>
+        <source>Step Number:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cyclewindow.ui" line="139"/>
+        <source>Previous Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cyclewindow.ui" line="171"/>
+        <source>Next Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cyclewindow.ui" line="216"/>
+        <source>Reset Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cyclewindow.ui" line="248"/>
+        <source>Step By Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
@@ -30,7 +68,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="188"/>
-        <location filename="mainwindow.ui" line="476"/>
+        <location filename="mainwindow.ui" line="308"/>
         <source>Telegram</source>
         <translation type="unfinished"></translation>
     </message>
@@ -40,57 +78,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="260"/>
-        <source>Live:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="274"/>
-        <source>Step Number:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="324"/>
-        <source>Previous Step</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="350"/>
-        <source>Next Step</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="389"/>
-        <source>Reset Step</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="415"/>
-        <source>Step By Step</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="447"/>
+        <location filename="mainwindow.ui" line="271"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="487"/>
+        <location filename="mainwindow.ui" line="319"/>
         <source>http://www.liprandi.com/projects/betim/zServicePHP.php</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="512"/>
+        <location filename="mainwindow.ui" line="344"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="522"/>
+        <location filename="mainwindow.ui" line="354"/>
         <source>Start Ethernet/IP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="527"/>
+        <location filename="mainwindow.ui" line="359"/>
         <source>Stop Ethernet/IP</source>
         <translation type="unfinished"></translation>
     </message>

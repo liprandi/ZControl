@@ -12,5 +12,8 @@
         <file alias="step_wait">resource/step_pause.png</file>
         <file alias="step_on">resource/step_run.png</file>
         <file alias="telegram">resource/telegram.png</file>
+        <file alias="gray">resource/gray.png</file>
+        <file alias="green">resource/green.png</file>
+        <file alias="yellow">resource/yellow.png</file>
     </qresource>
 </RCC>

@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(1);
+           ui->hingeWidget->setCycle(211, &m_local, &m_plcs);
        }
     });
     connect(ui->btnHingeRight, &QAbstractButton::toggled, [&](bool checked)
@@ -51,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(1);
+           ui->hingeWidget->setCycle(212, &m_local, &m_plcs);
        }
     });
     connect(ui->btnDebug, &QAbstractButton::toggled, [&](bool checked)
@@ -96,6 +98,11 @@ void MainWindow::timerEvent(QTimerEvent* event)
             delete m_serverRemote;
             m_serverRemote = nullptr;
         }
+    }
+    if(ui->stackedWidget->currentIndex() == 1)
+    {
+        QByteArray t = m_plcs.m_b.getData(1);
+        ui->hingeWidget->updateData(t);
     }
     if(ui->stackedWidget->currentIndex() == 2)
     {

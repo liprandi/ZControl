@@ -48,12 +48,7 @@ public:
     QByteArray getData(int id);
     void cycleRead();
     void cycleWrite();
-protected:
-//    virtual void run() override;
-
 private:
-//    bool m_run;
-//    bool m_quit;
     std::list<In*> m_in;
     std::list<Out*> m_out;
 

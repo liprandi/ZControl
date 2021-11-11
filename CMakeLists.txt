@@ -25,8 +25,11 @@ set(PROJECT_SOURCES
         zplc.cpp
         plcs.h
         plcs.cpp
+        cyclewindow.h
+        cyclewindow.cpp
 # complementary archieves
         mainwindow.ui
+        cyclewindow.ui
         zcontrol.qrc
         zcontrol.rc
         zcontrol.ini
