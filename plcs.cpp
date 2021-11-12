@@ -107,13 +107,27 @@ void Plcs::run()
         m_skids.cycleRead();
         QByteArray from = m_b.getData(1);
         QByteArray to = m_skids.getData(2);
+        QByteArray speedA = m_skids.getData(3);
+        QByteArray speedB = m_skids.getData(4);
+        QByteArray alive = m_skids.getData(5);
         externalCommand(to);
-        if(from.length() > 0 && to.length() > 0 && m_out.count() >=  2)
+        if(from.length() > 0 && to.length() > 0 && m_out.count() >=  5)
         {
             if(!m_out[0].plc.compare("SKIDS"))
                 m_skids.writeData(m_out[0].tag, m_out[0].type, from);
             if(!m_out[1].plc.compare("LFB"))
                 m_b.writeData(m_out[1].tag, m_out[1].type, to);
+            if(!m_out[2].plc.compare("LFA"))
+                m_a.writeData(m_out[2].tag, m_out[2].type, speedA);
+            if(!m_out[3].plc.compare("LFB"))
+                m_b.writeData(m_out[3].tag, m_out[3].type, speedB);
+            if(!m_out[4].plc.compare("LFA") && alive.length() >= 2)
+            {
+                QByteArray t(4, 0);
+                t[0] = alive[0];
+                t[1] = alive[1];
+                m_a.writeData(m_out[4].tag, m_out[4].type, t);
+            }
         }
         m_a.cycleWrite();
         m_b.cycleWrite();
