@@ -72,7 +72,7 @@ public:
     explicit CycleWindow(QWidget *parent = nullptr);
     ~CycleWindow();
 
-    void setCycle(int num, ZMariaDB* db, Plcs* plcs);
+    void setCycle(int num, ZMariaDB* db, Plcs* plcs, QMap<int, QString>* steps, QMap<int, QString>* messages, QMap<int, QString>* failures);
     void updateData(const QByteArray &data);
 signals:
     void setCommand(int byte, int bit);
@@ -93,9 +93,9 @@ private:
     int m_step;
     ZMariaDB* m_db;
     Plcs*     m_plcs;
-    QMap<int, QString> m_steps;
-    QMap<int, QString> m_messages;
-    QMap<int, QString> m_failures;
+    QMap<int, QString> *m_steps;
+    QMap<int, QString> *m_messages;
+    QMap<int, QString> *m_failures;
 };
 
 #endif // CYCLEWINDOW_H

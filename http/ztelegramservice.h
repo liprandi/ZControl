@@ -32,7 +32,7 @@ private:
 public:
     const QJsonDocument& data(){return m_data;}
 signals:
-    void requestStatus(const QString& cmd);
+    void requestCommand(const QString& cmd);
 private:
     QString                 m_http;
     QString                 m_prefix;

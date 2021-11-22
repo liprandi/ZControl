@@ -213,6 +213,7 @@ bool Plcs::compareBuffer(int base, int size, const QByteArray& data, QList<short
         if(!found)
             diff.append(-v);
     }
+    msg = err;
     return diff.count();
 }
 void  Plcs::resetAllCommand()

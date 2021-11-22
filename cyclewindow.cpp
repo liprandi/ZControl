@@ -16,7 +16,7 @@ CycleWindow::CycleWindow(QWidget *parent) :
     connect(ui->btnNext, &QToolButton::clicked, [&](bool checked)
     {
         (void)checked;
-        if(m_plcs && m_cycle > 0 && m_steps.count() > 0)
+        if(m_plcs && m_cycle > 0 && m_steps->count() > 0)
         {
             int base = (m_cycle == 211) ? 6: 26;
             m_plcs->setCommand(base, m_step + 2);
@@ -25,7 +25,7 @@ CycleWindow::CycleWindow(QWidget *parent) :
     connect(ui->btnPrev, &QToolButton::clicked, [&](bool checked)
     {
         (void)checked;
-        if(m_plcs && m_cycle > 0 && m_steps.count() > 0)
+        if(m_plcs && m_cycle > 0 && m_steps->count() > 0)
         {
             int base = (m_cycle == 211) ? 6: 26;
             if(m_step > 0)
@@ -48,11 +48,14 @@ CycleWindow::~CycleWindow()
     delete ui;
 }
 // activate one cycle to show
-void CycleWindow::setCycle(int num, ZMariaDB *db, Plcs *plcs)
+void CycleWindow::setCycle(int num, ZMariaDB *db, Plcs *plcs, QMap<int, QString> *steps, QMap<int, QString> *messages, QMap<int, QString> *failures)
 {
     m_cycle = num;
     m_db = db;
     m_plcs = plcs;
+    m_steps = steps;
+    m_messages = messages;
+    m_failures = failures;
     if(m_plcs)
         m_plcs->resetAllCommand();
     recreateButtons();
@@ -107,33 +110,6 @@ void CycleWindow::recreateButtons()
                 connect(p, &QPushButton::released, this, &CycleWindow::releasedButton);
             }
         }
-        if(m_db->query(QString("SELECT * FROM `step` where `equipment`=%1 order by `idx`").arg(m_cycle).toStdString()))
-        {
-            m_steps.clear();
-            const auto recs = m_db->getAllRecords();
-            for(const auto r: recs)
-            {
-                m_steps[std::stoi(r.at("idx"))] = QString::fromStdString(r.at("description"));
-            }
-        }
-        if(m_db->query(QString("SELECT * FROM `fault` where `equipment`=%1 order by `idx`").arg(m_cycle).toStdString()))
-        {
-            m_messages.clear();
-            const auto recs = m_db->getAllRecords();
-            for(const auto r: recs)
-            {
-                m_messages[std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
-            }
-        }
-        if(m_db->query("SELECT * FROM `fault` where `equipment`=0 order by `idx`"))
-        {
-            m_failures.clear();
-            const auto recs = m_db->getAllRecords();
-            for(const auto r: recs)
-            {
-                m_failures[std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
-            }
-        }
     }
 }
 void CycleWindow::pressedButton()
@@ -170,7 +146,7 @@ void CycleWindow::updateHeader(const QByteArray &data)
     m_step = *step;
     ui->leLiveCounter->setText(QString::number(*alive));
     ui->leStepNumber->setText(QString::number(*step));
-    ui->leStepDescription->setText(m_steps[*step]);
+    ui->leStepDescription->setText((*m_steps)[*step]);
 }
 // update list of messages
 void CycleWindow::updateList(const QByteArray &data)
@@ -227,9 +203,9 @@ QVariant CycleWindow::ListMessages::data(const QModelIndex &index, int role) con
         else if(m_super)
         {
             if(r < m_cntFailures)
-                ret = m_super->m_failures[(*f) % 128];
+                ret = (*m_super->m_failures)[(*f) % 128];
             else
-                ret = m_super->m_messages[(*f) % 128];
+                ret = (*m_super->m_failures)[(*f) % 128];
         }
     }
     else if(role == Qt::BackgroundRole)

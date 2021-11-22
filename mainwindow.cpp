@@ -33,6 +33,22 @@ MainWindow::MainWindow(QWidget *parent)
     auto old2 = ui->tblRemote->selectionModel();
     ui->tblRemote->setModel(&m_remote);
     delete old2;
+    readMessageStepsAndFails();
+    if(!m_telegram)
+        m_telegram = new ZTelegramService(m_settings);
+    m_telegram->addMessage("⚜<b>Inicio Programa!</b>");
+    connect(m_telegram, &ZTelegramService::requestCommand, [&](const QString& cmd)
+    {
+        if(cmd.indexOf("status", 0, Qt::CaseInsensitive) >= 0)
+        {
+            QByteArray t = m_plcs.m_b.getData(1);
+            auto stepl = reinterpret_cast<const short*>(&t.data()[2]);
+            auto stepr = reinterpret_cast<const short*>(&t.data()[42]);
+            QString l =  QString("👈<b>Dobradiças Esquerdas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*stepl).arg(m_steps[0][*stepl]);
+            QString r =  QString("\n👉<b>Dobradiças Direitas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*stepr).arg(m_steps[0][*stepr]);
+            m_telegram->addMessage(l + r);
+        }
+    });
     connect(ui->btnLogo, &QAbstractButton::toggled, [&](bool checked)
     {
        if(checked)
@@ -45,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(1);
-           ui->hingeWidget->setCycle(211, &m_local, &m_plcs);
+           ui->hingeWidget->setCycle(211, &m_local, &m_plcs, &m_steps[0], &m_messages[0], &m_failures);
        }
     });
     connect(ui->btnHingeRight, &QAbstractButton::toggled, [&](bool checked)
@@ -53,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(1);
-           ui->hingeWidget->setCycle(212, &m_local, &m_plcs);
+           ui->hingeWidget->setCycle(212, &m_local, &m_plcs, &m_steps[1], &m_messages[1], &m_failures);
        }
     });
     connect(ui->btnDebug, &QAbstractButton::toggled, [&](bool checked)
@@ -73,24 +89,27 @@ MainWindow::MainWindow(QWidget *parent)
            ui->stackedWidget->setCurrentIndex(3);
            if(!m_telegram)
                m_telegram = new ZTelegramService(m_settings);
-           m_telegram->addMessage("👍<b>Start program!</b>");
+           m_telegram->addMessage("👍<b>Check Telegram!</b>");
        }
     });
-    connect(&m_plcs, &Plcs::newMsgSx, [&](const QList<short> msg)
+    connect(&m_plcs, &Plcs::newMsgSx, [&](const QList<short> msgs)
     {
-       if(m_telegram)
-       {
-           QString str("<b>Dobradiça Esquerda</b>\n");
-           for(auto i: msg)
-           {
-               if(i > 0)
-               {
+        QByteArray t = m_plcs.m_b.getData(1);
+        auto step = reinterpret_cast<const short*>(&t.data()[2]);
+        QString header =  QString("👈<b>Dobradiças Esquerdas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*step).arg(m_steps[0][*step]);
 
-               }
-           }
-
-           m_telegram->addMessage(str);
-       }
+        newMsg(header, msgs, m_messages[0]);
+    });
+    connect(&m_plcs, &Plcs::newMsgDx, [&](const QList<short> msgs)
+    {
+        QByteArray t = m_plcs.m_b.getData(1);
+        auto step = reinterpret_cast<const short*>(&t.data()[42]);
+        QString header =  QString("👉<b>Dobradiças Direitas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*step).arg(m_steps[1][*step]);
+        newMsg("👉<b>Dobradiças Direitas</b>", msgs, m_messages[1]);
+    });
+    connect(&m_plcs, &Plcs::newMsgGeneral, [&](const QList<short> msgs)
+    {
+        newMsg("❗<b>Falhas Gerais</b>", msgs, m_failures);
     });
     startTimer(1s);
 }
@@ -106,6 +125,74 @@ MainWindow::~MainWindow()
     m_settings.value("remote/user", m_userRemote);
     m_settings.value("remote/password", m_passwordRemote);
     m_settings.value("remote/db", m_dbRemote);
+}
+void MainWindow::readMessageStepsAndFails()
+{
+    if(m_local.query("SELECT * FROM `step` where `equipment`=211 order by `idx`"))
+    {
+        m_steps[0].clear();
+        const auto recs = m_local.getAllRecords();
+        for(const auto r: recs)
+        {
+            m_steps[0][std::stoi(r.at("idx"))] = QString::fromStdString(r.at("description"));
+        }
+    }
+    if(m_local.query("SELECT * FROM `step` where `equipment`=212 order by `idx`"))
+    {
+        m_steps[1].clear();
+        const auto recs = m_local.getAllRecords();
+        for(const auto r: recs)
+        {
+            m_steps[1][std::stoi(r.at("idx"))] = QString::fromStdString(r.at("description"));
+        }
+    }
+    if(m_local.query("SELECT * FROM `fault` where `equipment`=211 order by `idx`"))
+    {
+        m_messages[0].clear();
+        const auto recs = m_local.getAllRecords();
+        for(const auto r: recs)
+        {
+            m_messages[0][std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
+        }
+    }
+    if(m_local.query("SELECT * FROM `fault` where `equipment`=212 order by `idx`"))
+    {
+        m_messages[1].clear();
+        const auto recs = m_local.getAllRecords();
+        for(const auto r: recs)
+        {
+            m_messages[1][std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
+        }
+    }
+    if(m_local.query("SELECT * FROM `fault` where `equipment`=0 order by `idx`"))
+    {
+        m_failures.clear();
+        const auto recs = m_local.getAllRecords();
+        for(const auto r: recs)
+        {
+            m_failures[std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
+        }
+    }
+}
+void MainWindow::newMsg(const QString& header, const QList<short>& msgs, const QMap<int, QString>& descr)
+{
+    QString outStr;
+    if(m_telegram && msgs.count() > 0)
+    {
+        outStr = header;
+        for(auto v: msgs)
+        {
+            if(v > 0)
+            {
+                outStr += "\n❌" + descr[v];
+            }
+            else
+            {
+                outStr += "\n✔<s>" + descr[v] + "</s>";
+            }
+        }
+        m_telegram->addMessage(outStr);
+    }
 }
 
 void MainWindow::timerEvent(QTimerEvent* event)

@@ -19,8 +19,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+private:
+    void readMessageStepsAndFails();
+    virtual void timerEvent(QTimerEvent* event) override;
+    void newMsg(const QString& header, const QList<short>& msgs, const QMap<int, QString>& descr);
+public slots:
 
-   virtual void timerEvent(QTimerEvent* event) override;
 private:
     Ui::MainWindow *ui;
 private: // databases
@@ -38,5 +42,8 @@ private: // databases
     QString m_userRemote;
     QString m_passwordRemote;
     QString m_dbRemote;
+    QMap<int, QString> m_steps[2];      // 0 left, 1 right
+    QMap<int, QString> m_messages[2];   // 0 left, 1 right
+    QMap<int, QString> m_failures;
 };
 #endif // MAINWINDOW_H

@@ -56,7 +56,7 @@ void ZTelegramService::check()
                         {
                             auto cmd = c.toString();
                             addMessage(QString("I've received %1 command from %2 %3").arg(cmd.mid(1)).arg(msg["from"]["first_name"].toString()).arg(msg["from"]["last_name"].toString()));
-                            emit requestStatus(cmd);
+                            emit requestCommand(cmd);
                         }
                     }
                 }
