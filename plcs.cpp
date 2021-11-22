@@ -132,6 +132,15 @@ void Plcs::run()
         m_a.cycleWrite();
         m_b.cycleWrite();
         m_skids.cycleWrite();
+        if(compareBuffers(from))
+        {
+            if(m_diffSx.count() > 0)
+                emit newMsgSx(m_diffSx);
+            if(m_diffDx.count() > 0)
+                emit newMsgDx(m_diffSx);
+            if(m_diffGeneral.count() > 0)
+                emit newMsgGeneral(m_diffGeneral);
+        }
     }
     m_run = false;
 }
@@ -154,6 +163,57 @@ void  Plcs::setCommand(int byte, unsigned value)
     {
         m_command.append({byte, value});
     }
+}
+
+bool Plcs::compareBuffers(const QByteArray& data)
+{
+    bool ret = false;
+    ret |= compareBuffer(10, 10, data, m_msgSx, m_diffSx);
+    ret |= compareBuffer(50, 10, data, m_msgDx, m_diffDx);
+    ret |= compareBuffer(80, 5,  data, m_msgGeneral, m_diffGeneral);
+    return ret;
+}
+bool Plcs::compareBuffer(int base, int size, const QByteArray& data, QList<short>& msg, QList<short>& diff)
+{
+    QList<short> err;
+    for(int i = 0; i < size; i++)
+    {
+        auto f = (short*)(data.data() + (i * 2 + base));
+        if((*f) > 0 && ((*f) > 128 || base > 50))
+        {
+            err.append(*f);
+        }
+    }
+    diff.clear();
+    for(auto u: err)
+    {
+        bool found = false;
+        for(auto v: msg)
+        {
+            if(u == v)
+            {
+                found = true;
+                break;
+            }
+        }
+        if(!found)
+            diff.append(u);
+    }
+    for(auto v: msg)
+    {
+        bool found = false;
+        for(auto u: err)
+        {
+            if(v == u)
+            {
+                found = true;
+                break;
+            }
+        }
+        if(!found)
+            diff.append(-v);
+    }
+    return diff.count();
 }
 void  Plcs::resetAllCommand()
 {

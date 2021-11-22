@@ -6,6 +6,7 @@
 #include "zmariadb.h"
 #include "plcs.h"
 #include "http/zhttpservice.h"
+#include "http/ztelegramservice.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,6 +28,7 @@ private: // databases
     ZMariaDB m_local;
     ZMariaDB m_remote;
     ZHttpService* m_serverRemote;
+    ZTelegramService* m_telegram;
     Plcs m_plcs;
     QString m_addrLocal;
     QString m_userLocal;

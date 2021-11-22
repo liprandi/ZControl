@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , m_settings("zcontrol.ini", QSettings::IniFormat)
     , m_serverRemote(nullptr)
+    , m_telegram(nullptr)
     , m_plcs(m_settings)
 {
     m_addrLocal = m_settings.value("local/address", "localhost").toString();
@@ -60,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent)
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(2);
+           if(!m_serverRemote)
+               m_serverRemote = new ZHttpService();
+           m_serverRemote->startRequest(QUrl("http://www.liprandi.com/projects/betim/zServicePHP.php")); //"http://www.liprandi.com/projects/betim/zServicePHP.php"
        }
     });
     connect(ui->btnTelegram, &QAbstractButton::toggled, [&](bool checked)
@@ -67,9 +71,25 @@ MainWindow::MainWindow(QWidget *parent)
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(3);
-           if(!m_serverRemote)
-               m_serverRemote = new ZHttpService();
-           m_serverRemote->startRequest(QUrl("http://www.liprandi.com/projects/betim/zServicePHP.php")); //"http://www.liprandi.com/projects/betim/zServicePHP.php"
+           if(!m_telegram)
+               m_telegram = new ZTelegramService(m_settings);
+           m_telegram->addMessage("👍<b>Start program!</b>");
+       }
+    });
+    connect(&m_plcs, &Plcs::newMsgSx, [&](const QList<short> msg)
+    {
+       if(m_telegram)
+       {
+           QString str("<b>Dobradiça Esquerda</b>\n");
+           for(auto i: msg)
+           {
+               if(i > 0)
+               {
+
+               }
+           }
+
+           m_telegram->addMessage(str);
        }
     });
     startTimer(1s);
@@ -98,6 +118,10 @@ void MainWindow::timerEvent(QTimerEvent* event)
             delete m_serverRemote;
             m_serverRemote = nullptr;
         }
+    }
+    if(m_telegram)
+    {
+        m_telegram->check();
     }
     if(ui->stackedWidget->currentIndex() == 1)
     {

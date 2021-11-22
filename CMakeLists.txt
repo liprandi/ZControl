@@ -46,9 +46,11 @@ set(PROJECT_SOURCES
         mysql/mariadb_ctype.h
         mysql/mariadb_version.h
         mysql/mariadb_stmt.h
-# http client
+# http client & telegram
         http/zhttpservice.h
         http/zhttpservice.cpp
+        http/ztelegramservice.h
+        http/ztelegramservice.cpp
 # http server
         httpserver/httpconnectionhandler.cpp
         httpserver/httpconnectionhandler.h

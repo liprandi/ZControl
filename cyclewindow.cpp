@@ -185,7 +185,7 @@ void CycleWindow::updateLeds(const QByteArray &data)
     for (int i = 0; i < ui->btnLayout->count(); ++i)
     {
         auto btn = reinterpret_cast<PushButton *>(ui->btnLayout->itemAt(i)->widget());
-        if(btn != NULL && btn->m_col < 5)
+        if(btn != NULL && btn->m_col < 5 && data.length() >= 80)
         {
             int base = (m_cycle == 211) ? 30: 70;
 
