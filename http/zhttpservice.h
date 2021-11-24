@@ -7,28 +7,31 @@
 #include <QAuthenticator>
 #include <QScopedPointerDeleteLater>
 #include <QUrl>
-#include <QFile>
+#include <QSettings>
 
 class ZHttpService : public QObject
 {
     Q_OBJECT
 public:
-    explicit ZHttpService(QObject *parent = nullptr);
+    explicit ZHttpService(QSettings &settings, QObject *parent = nullptr);
     ~ZHttpService();
 
-    void startRequest(const QUrl &requestedUrl);
+    void startRequest();
 private slots:
-    void cancelDownload();
+
 public:
     const QByteArray& data(){return m_data;}
+    void check();
     bool hasFinished(){return m_finished;}
 signals:
 
 private:
-    QUrl url;
+    QUrl m_url;
     QNetworkAccessManager qnam;
     QNetworkReply* m_reply;
     QByteArray m_data;
+    QString    m_http;
+    std::chrono::time_point<std::chrono::system_clock> m_lasttime;
     bool m_finished;
 };
 

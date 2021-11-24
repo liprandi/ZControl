@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     if(!m_telegram)
         m_telegram = new ZTelegramService(m_settings);
     m_telegram->addMessage("⚜<b>Inicio Programa!</b>");
+    if(!m_serverRemote)
+        m_serverRemote = new ZHttpService(m_settings);
     connect(m_telegram, &ZTelegramService::requestCommand, [&](const QString& cmd)
     {
         if(cmd.indexOf("status", 0, Qt::CaseInsensitive) >= 0)
@@ -77,9 +79,6 @@ MainWindow::MainWindow(QWidget *parent)
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(2);
-           if(!m_serverRemote)
-               m_serverRemote = new ZHttpService();
-           m_serverRemote->startRequest(QUrl("http://www.liprandi.com/projects/betim/zServicePHP.php")); //"http://www.liprandi.com/projects/betim/zServicePHP.php"
        }
     });
     connect(ui->btnTelegram, &QAbstractButton::toggled, [&](bool checked)
@@ -199,12 +198,7 @@ void MainWindow::timerEvent(QTimerEvent* event)
 {
     if(m_serverRemote)
     {
-        if(m_serverRemote->hasFinished())
-        {
-            ui->logTelegram->setPlainText(m_serverRemote->data());
-            delete m_serverRemote;
-            m_serverRemote = nullptr;
-        }
+        m_serverRemote->check();
     }
     if(m_telegram)
     {

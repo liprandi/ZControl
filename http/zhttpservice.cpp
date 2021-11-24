@@ -1,22 +1,34 @@
 #include "zhttpservice.h"
 
-ZHttpService::ZHttpService(QObject *parent) : QObject(parent)
-  , m_finished(false)
-  , m_reply(nullptr)
-{
+using namespace std::chrono_literals;
 
+ZHttpService::ZHttpService(QSettings &settings, QObject *parent) : QObject(parent)
+  , m_finished(true)
+  , m_reply(nullptr)
+  , m_lasttime(std::chrono::system_clock::now())
+{
+    m_http = settings.value("server/http").toString();
+    m_url = QUrl(m_http);
 }
 ZHttpService::~ZHttpService() = default;
 
-void ZHttpService::startRequest(const QUrl &requestedUrl)
+void ZHttpService::check()
 {
-    m_finished = false;
-    m_data.clear();
-    if(m_reply)
+    auto start = std::chrono::system_clock::now();
+    auto diff = start - m_lasttime;
+
+    if(hasFinished() && diff > 3s)
     {
-        delete m_reply;
-        m_reply = nullptr;
+        m_lasttime = start;
+        qnam.clearAccessCache();
+        qnam.clearConnectionCache();
+        startRequest();
     }
+}
+
+void ZHttpService::startRequest()
+{
+    m_data.clear();
 
     connect(&qnam, &QNetworkAccessManager::authenticationRequired, [&](QNetworkReply *, QAuthenticator *authenticator)
     {
@@ -24,21 +36,24 @@ void ZHttpService::startRequest(const QUrl &requestedUrl)
         authenticator->setPassword("0713D0504l");
     });
 
-    QNetworkRequest req(requestedUrl);
+    QNetworkRequest req(m_url);
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, true);
 
     // Add the headers specifying their names and their values with the following method : void QNetworkRequest::setRawHeader(const QByteArray & headerName, const QByteArray & headerValue);
     req.setRawHeader("User-Agent", "ZControl v.0.1");
     req.setRawHeader("X-Custom-User-Agent", "ZControl v.0.1");
-    req.setRawHeader("Content-Type", "text/html");
+    req.setRawHeader("Content-Type", "application/json");
 
-    m_reply = qnam.get(req);
+    m_reply = qnam.post(req, m_data);
+    m_data = "{\"ok\":\"true\"}";
 
     if(m_reply)
     {
+        m_finished = false;
         connect(m_reply, &QIODevice::readyRead, [&]()
         {
             m_data += m_reply->readAll();
+            m_reply->write("{\"ok\":\"true\"}");
         });
 
 
@@ -58,11 +73,13 @@ void ZHttpService::startRequest(const QUrl &requestedUrl)
                 m_data += "Error in http request: ";
             }
             m_finished = true;
+            m_lasttime = std::chrono::system_clock::now();
         });
+    }
+    else
+    {
+        m_finished = true;
+        m_lasttime = std::chrono::system_clock::now();
     }
 }
 
-void ZHttpService::cancelDownload()
-{
-    m_reply->abort();
-}
