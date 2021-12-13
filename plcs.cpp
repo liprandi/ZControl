@@ -75,7 +75,7 @@ Plcs::Plcs(QSettings &settings, QObject *parent) :
 Plcs::~Plcs()
 {
     m_quit = true;
-    if(m_run)
+    while(m_run)
         msleep(500);
 }
 

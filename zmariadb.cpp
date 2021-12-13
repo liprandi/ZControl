@@ -8,6 +8,7 @@ ZMariaDB::ZMariaDB(QObject *parent) : QAbstractTableModel(parent)
   , m_res(nullptr)
 {
     m_sql = mysql_init(nullptr);
+    mysql_set_character_set(m_sql, "utf8");
 }
 
 ZMariaDB::~ZMariaDB()

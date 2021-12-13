@@ -5,7 +5,9 @@
 #include <chrono>
 #include <mutex>
 #include <EtherNetIP/zethernetip.h>
-
+#ifndef __int64
+#define __int64 long long
+#endif
 using namespace std::chrono_literals;
 
 class ZPlc : public QObject

@@ -96,15 +96,20 @@ else()
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
+    elseif(WIN32)
         add_executable(ZControl WIN64 ${PROJECT_SOURCES} ${APP_ICON_RESOURCE_WINDOWS})
+    else()
+        add_executable(ZControl ${PROJECT_SOURCES})
     endif()
 
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(ZControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network ${CMAKE_SOURCE_DIR}/libs/libmariadb.lib)
-
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_link_libraries(ZControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network -lmariadb)
+else()
+    target_link_libraries(ZControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network ${CMAKE_SOURCE_DIR}/libs/libmariadb.lib)
+endif()
 set_target_properties(ZControl PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

@@ -44,8 +44,7 @@ void ZHttpService::startRequest()
     req.setRawHeader("X-Custom-User-Agent", "ZControl v.0.1");
     req.setRawHeader("Content-Type", "application/json");
 
-    m_reply = qnam.post(req, m_data);
-    m_data = "{\"ok\":\"true\"}";
+    m_reply = qnam.get(req);
 
     if(m_reply)
     {
@@ -53,7 +52,6 @@ void ZHttpService::startRequest()
         connect(m_reply, &QIODevice::readyRead, [&]()
         {
             m_data += m_reply->readAll();
-            m_reply->write("{\"ok\":\"true\"}");
         });
 
 

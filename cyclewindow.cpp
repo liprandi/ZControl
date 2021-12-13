@@ -77,13 +77,14 @@ void CycleWindow::recreateButtons()
         QAbstractButton *btn = reinterpret_cast<QAbstractButton *>(ui->btnLayout->itemAt(i)->widget());
         if(btn != NULL)
         {
+            disconnect(btn);
             toremove.append(btn);
         }
     }
     for(auto btn : toremove)
     {
         ui->btnLayout->removeWidget(btn);
-        delete btn;
+        btn->deleteLater();
     }
     if(m_db)
     {
