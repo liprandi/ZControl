@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Network  Widgets LinguistTools REQUIRED)
@@ -16,66 +16,124 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Network  Widgets LinguistTools REQ
 
 set(TS_FILES ZControl_en_GB.ts)
 
-set(PROJECT_SOURCES
-# main project
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        zplc.h
-        zplc.cpp
-        plcs.h
-        plcs.cpp
-        cyclewindow.h
-        cyclewindow.cpp
-# complementary archieves
-        mainwindow.ui
-        cyclewindow.ui
-        zcontrol.qrc
-        zcontrol.rc
-        zcontrol.ini
-        zcontrol.ico
-# Ethernet/IP communication
-        EtherNetIP/zethernetip.cpp
-        EtherNetIP/zethernetip.h
-# Database interface
-        zmariadb.h
-        zmariadb.cpp
-        mysql/mysql.h
-        mysql/ma_list.h
-        mysql/mariadb_com.h
-        mysql/mariadb_ctype.h
-        mysql/mariadb_version.h
-        mysql/mariadb_stmt.h
-# http client & telegram
-        http/zhttpservice.h
-        http/zhttpservice.cpp
-        http/ztelegramservice.h
-        http/ztelegramservice.cpp
-# http server
-        httpserver/httpconnectionhandler.cpp
-        httpserver/httpconnectionhandler.h
-        httpserver/httpconnectionhandlerpool.cpp
-        httpserver/httpconnectionhandlerpool.h
-        httpserver/httpcookie.cpp
-        httpserver/httpcookie.h
-        httpserver/httpglobal.cpp
-        httpserver/httpglobal.h
-        httpserver/httplistener.cpp
-        httpserver/httplistener.h
-        httpserver/httprequest.cpp
-        httpserver/httprequest.h
-        httpserver/httprequesthandler.cpp
-        httpserver/httprequesthandler.h
-        httpserver/httpresponse.cpp
-        httpserver/httpresponse.h
-        httpserver/httpsession.cpp
-        httpserver/httpsession.h
-        httpserver/httpsessionstore.cpp
-        httpserver/httpsessionstore.h
-        httpserver/staticfilecontroller.cpp
-        httpserver/staticfilecontroller.h
-        ${TS_FILES}
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(PROJECT_SOURCES
+    # main project
+            main.cpp
+            mainwindow.cpp
+            mainwindow.h
+            zplc.h
+            zplc.cpp
+            plcs.h
+            plcs.cpp
+            cyclewindow.h
+            cyclewindow.cpp
+    # complementary archieves
+            mainwindow.ui
+            cyclewindow.ui
+            zcontrol.qrc
+            zcontrol.rc
+            zcontrol.ini
+            zcontrol.ico
+    # Ethernet/IP communication
+            EtherNetIP/zethernetip.cpp
+            EtherNetIP/zethernetip.h
+    # Database interface
+            zmariadb.h
+            zmariadb.cpp
+            my.cnf
+     # http client & telegram
+            http/zhttpservice.h
+            http/zhttpservice.cpp
+            http/ztelegramservice.h
+            http/ztelegramservice.cpp
+    # http server
+            httpserver/httpconnectionhandler.cpp
+            httpserver/httpconnectionhandler.h
+            httpserver/httpconnectionhandlerpool.cpp
+            httpserver/httpconnectionhandlerpool.h
+            httpserver/httpcookie.cpp
+            httpserver/httpcookie.h
+            httpserver/httpglobal.cpp
+            httpserver/httpglobal.h
+            httpserver/httplistener.cpp
+            httpserver/httplistener.h
+            httpserver/httprequest.cpp
+            httpserver/httprequest.h
+            httpserver/httprequesthandler.cpp
+            httpserver/httprequesthandler.h
+            httpserver/httpresponse.cpp
+            httpserver/httpresponse.h
+            httpserver/httpsession.cpp
+            httpserver/httpsession.h
+            httpserver/httpsessionstore.cpp
+            httpserver/httpsessionstore.h
+            httpserver/staticfilecontroller.cpp
+            httpserver/staticfilecontroller.h
+            ${TS_FILES}
+    )
+else()
+    set(PROJECT_SOURCES
+    # main project
+            main.cpp
+            mainwindow.cpp
+            mainwindow.h
+            zplc.h
+            zplc.cpp
+            plcs.h
+            plcs.cpp
+            cyclewindow.h
+            cyclewindow.cpp
+    # complementary archieves
+            mainwindow.ui
+            cyclewindow.ui
+            zcontrol.qrc
+            zcontrol.rc
+            zcontrol.ini
+            zcontrol.ico
+    # Ethernet/IP communication
+            EtherNetIP/zethernetip.cpp
+            EtherNetIP/zethernetip.h
+    # Database interface
+            zmariadb.h
+            zmariadb.cpp
+            mysql/mysql.h
+            mysql/ma_list.h
+            mysql/mariadb_com.h
+            mysql/mariadb_ctype.h
+            mysql/mariadb_version.h
+            mysql/mariadb_stmt.h
+    # http client & telegram
+            http/zhttpservice.h
+            http/zhttpservice.cpp
+            http/ztelegramservice.h
+            http/ztelegramservice.cpp
+    # http server
+            httpserver/httpconnectionhandler.cpp
+            httpserver/httpconnectionhandler.h
+            httpserver/httpconnectionhandlerpool.cpp
+            httpserver/httpconnectionhandlerpool.h
+            httpserver/httpcookie.cpp
+            httpserver/httpcookie.h
+            httpserver/httpglobal.cpp
+            httpserver/httpglobal.h
+            httpserver/httplistener.cpp
+            httpserver/httplistener.h
+            httpserver/httprequest.cpp
+            httpserver/httprequest.h
+            httpserver/httprequesthandler.cpp
+            httpserver/httprequesthandler.h
+            httpserver/httpresponse.cpp
+            httpserver/httpresponse.h
+            httpserver/httpsession.cpp
+            httpserver/httpsession.h
+            httpserver/httpsessionstore.cpp
+            httpserver/httpsessionstore.h
+            httpserver/staticfilecontroller.cpp
+            httpserver/staticfilecontroller.h
+            ${TS_FILES}
+    )
+endif()
 set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/zcontrol.rc")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

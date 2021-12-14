@@ -8,7 +8,11 @@ ZMariaDB::ZMariaDB(QObject *parent) : QAbstractTableModel(parent)
   , m_res(nullptr)
 {
     m_sql = mysql_init(nullptr);
-    mysql_set_character_set(m_sql, "utf8");
+    int err = mysql_optionsv(m_sql, MYSQL_READ_DEFAULT_FILE, "my.cnf");
+    if(err)
+    {
+       qDebug() <<  mysql_error(m_sql);
+    }
 }
 
 ZMariaDB::~ZMariaDB()
@@ -87,7 +91,8 @@ const std::vector<std::string>& ZMariaDB::getNextRecord()
     {
        for(int i = 0; i < m_fields.size(); i++)
        {
-           m_record.push_back(row[i] ? row[i] : "NULL");
+           auto v = row[i];
+           m_record.push_back(v ? v : "NULL");
        }
     }
     else
@@ -109,7 +114,8 @@ const std::vector<std::map<std::string, std::string> > &ZMariaDB::getAllRecords(
        std::map<std::string, std::string> rec;
        for(int i = 0; i < m_fields.size(); i++)
        {
-           rec[m_fields[i]] = (row[i] ? row[i] : "NULL");
+           std::string v = row[i];
+           rec[m_fields[i]] = (v.empty() ? "NULL" : v);
        }
        m_records.push_back(rec);
     }

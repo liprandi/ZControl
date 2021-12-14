@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "mysql/mysql.h"
+#include <mariadb/mysql.h>
 
 class ZMariaDB : public QAbstractTableModel
 {
