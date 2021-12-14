@@ -27,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     auto res_local = m_local.getAllRecords();
     auto res_remote = m_remote.getAllRecords();
     ui->setupUi(this);
-    auto old1 = ui->tblLocal->selectionModel();
+    auto old1 = ui->tblLocal->model();
     ui->tblLocal->setModel(&m_local);
     delete old1;
-    auto old2 = ui->tblRemote->selectionModel();
+    auto old2 = ui->tblRemote->model();
     ui->tblRemote->setModel(&m_remote);
     delete old2;
     readMessageStepsAndFails();
@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_telegram->addMessage("⚜<b>Inicio Programa!</b>");
     if(!m_serverRemote)
         m_serverRemote = new ZHttpService(m_settings);
-    connect(m_telegram, &ZTelegramService::requestCommand, [&](const QString& cmd)
+    connect(m_telegram, &ZTelegramService::requestCommand, [&](const QString cmd)
     {
         if(cmd.indexOf("status", 0, Qt::CaseInsensitive) >= 0)
         {
@@ -96,7 +96,6 @@ MainWindow::MainWindow(QWidget *parent)
         QByteArray t = m_plcs.m_b.getData(1);
         auto step = reinterpret_cast<const short*>(&t.data()[2]);
         QString header =  QString("👈<b>Dobradiças Esquerdas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*step).arg(m_steps[0][*step]);
-
         newMsg(header, msgs, m_messages[0]);
     });
     connect(&m_plcs, &Plcs::newMsgDx, [&](const QList<short> msgs)
@@ -104,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent)
         QByteArray t = m_plcs.m_b.getData(1);
         auto step = reinterpret_cast<const short*>(&t.data()[42]);
         QString header =  QString("👉<b>Dobradiças Direitas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*step).arg(m_steps[1][*step]);
-        newMsg("👉<b>Dobradiças Direitas</b>", msgs, m_messages[1]);
+        newMsg(header, msgs, m_messages[1]);
     });
     connect(&m_plcs, &Plcs::newMsgGeneral, [&](const QList<short> msgs)
     {
@@ -131,7 +130,7 @@ void MainWindow::readMessageStepsAndFails()
     {
         m_steps[0].clear();
         const auto recs = m_local.getAllRecords();
-        for(const auto r: recs)
+        for(auto& r: recs)
         {
             m_steps[0][std::stoi(r.at("idx"))] = QString::fromStdString(r.at("description"));
         }
@@ -140,7 +139,7 @@ void MainWindow::readMessageStepsAndFails()
     {
         m_steps[1].clear();
         const auto recs = m_local.getAllRecords();
-        for(const auto r: recs)
+        for(auto& r: recs)
         {
             m_steps[1][std::stoi(r.at("idx"))] = QString::fromStdString(r.at("description"));
         }
@@ -149,7 +148,7 @@ void MainWindow::readMessageStepsAndFails()
     {
         m_messages[0].clear();
         const auto recs = m_local.getAllRecords();
-        for(const auto r: recs)
+        for(auto& r: recs)
         {
             m_messages[0][std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
         }
@@ -158,7 +157,7 @@ void MainWindow::readMessageStepsAndFails()
     {
         m_messages[1].clear();
         const auto recs = m_local.getAllRecords();
-        for(const auto r: recs)
+        for(auto& r: recs)
         {
             m_messages[1][std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
         }
@@ -167,7 +166,7 @@ void MainWindow::readMessageStepsAndFails()
     {
         m_failures.clear();
         const auto recs = m_local.getAllRecords();
-        for(const auto r: recs)
+        for(auto& r: recs)
         {
             m_failures[std::stoi(r.at("idx"))+1] = QString::fromStdString(r.at("description"));
         }
@@ -187,7 +186,7 @@ void MainWindow::newMsg(const QString& header, const QList<short>& msgs, const Q
             }
             else
             {
-                outStr += "\n✔<s>" + descr[v] + "</s>";
+                outStr += "\n✅<s>" + descr[-v] + "</s>";
             }
         }
         m_telegram->addMessage(outStr);

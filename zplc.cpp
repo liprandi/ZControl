@@ -10,6 +10,10 @@ ZPlc::~ZPlc()
 {
     if(m_plc)
         delete m_plc;
+    for(auto i: m_in)
+        delete i;
+    for(auto o: m_out)
+        delete o;
 }
 ZPlc::In::In(int id, const QByteArray &tag, int len, std::chrono::duration<__int64, std::milli> msec):
     m_id(id)
@@ -99,6 +103,7 @@ void ZPlc::cycleWrite()
             if(!m_plc->writePlc(o->m_tag, o->m_type, o->m_data))
                 qDebug() << "error in writing: " << o->m_tag;
             m_out.pop_front();
+            delete o;
         }
         m_mutexWrite.unlock();
     }

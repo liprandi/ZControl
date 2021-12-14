@@ -13,6 +13,9 @@ CycleWindow::CycleWindow(QWidget *parent) :
   , m_db(nullptr)
 {
     ui->setupUi(this);
+    auto old1 = ui->lvMessages->model();
+    ui->lvMessages->setModel(new ListMessages(this));
+    delete old1;
     connect(ui->btnNext, &QToolButton::clicked, [&](bool checked)
     {
         (void)checked;
@@ -45,7 +48,9 @@ CycleWindow::CycleWindow(QWidget *parent) :
 }
 CycleWindow::~CycleWindow()
 {
+    auto old1 = ui->lvMessages->model();
     delete ui;
+    delete old1;
 }
 // activate one cycle to show
 void CycleWindow::setCycle(int num, ZMariaDB *db, Plcs *plcs, QMap<int, QString> *steps, QMap<int, QString> *messages, QMap<int, QString> *failures)
@@ -66,8 +71,9 @@ void CycleWindow::updateData(const QByteArray& data)
     updateHeader(data);
     updateList(data);
     updateLeds(data);
-    ui->lvMessages->resizeColumnsToContents();
     ui->lvMessages->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->lvMessages->resizeColumnsToContents();
+    ui->lvMessages->resizeRowsToContents();
 }
 void CycleWindow::recreateButtons()
 {
@@ -93,7 +99,7 @@ void CycleWindow::recreateButtons()
             const auto recs = m_db->getAllRecords();
             int cntfwd = 0;
             int cntbwd = 0;
-            for(const auto r: recs)
+            for(auto& r: recs)
             {
                 auto desc = r.at("description");
                 int col = std::stoi(r.at("idx"));
@@ -152,9 +158,8 @@ void CycleWindow::updateHeader(const QByteArray &data)
 // update list of messages
 void CycleWindow::updateList(const QByteArray &data)
 {
-    auto old1 = ui->lvMessages->selectionModel();
-    ui->lvMessages->setModel(new ListMessages(data, m_cycle, this));
-    delete old1;
+    auto model = reinterpret_cast<ListMessages*>(ui->lvMessages->model());
+    model->setNewData(data, m_cycle);
 }
 // update color of buttons
 void CycleWindow::updateLeds(const QByteArray &data)
@@ -206,7 +211,7 @@ QVariant CycleWindow::ListMessages::data(const QModelIndex &index, int role) con
             if(r < m_cntFailures)
                 ret = (*m_super->m_failures)[(*f) % 128];
             else
-                ret = (*m_super->m_failures)[(*f) % 128];
+                ret = (*m_super->m_messages)[(*f) % 128];
         }
     }
     else if(role == Qt::BackgroundRole)

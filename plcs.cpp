@@ -137,7 +137,7 @@ void Plcs::run()
             if(m_diffSx.count() > 0)
                 emit newMsgSx(m_diffSx);
             if(m_diffDx.count() > 0)
-                emit newMsgDx(m_diffSx);
+                emit newMsgDx(m_diffDx);
             if(m_diffGeneral.count() > 0)
                 emit newMsgGeneral(m_diffGeneral);
         }
@@ -197,7 +197,7 @@ bool Plcs::compareBuffer(int base, int size, const QByteArray& data, QList<short
             }
         }
         if(!found)
-            diff.append(u);
+            diff.append(u % 128);
     }
     for(auto v: msg)
     {
@@ -211,7 +211,7 @@ bool Plcs::compareBuffer(int base, int size, const QByteArray& data, QList<short
             }
         }
         if(!found)
-            diff.append(-v);
+            diff.append(-(v % 128));
     }
     msg = err;
     return diff.count();

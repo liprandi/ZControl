@@ -33,11 +33,17 @@ public:
     class ListMessages : public QAbstractTableModel
     {
     public:
-        ListMessages(const QByteArray& data, int cycle, const CycleWindow* super):
-            m_data(data)
-          , m_super(super)
-          , m_cycle(cycle)
+        ListMessages(const CycleWindow* super):
+           m_super(super)
         {
+            m_cntFailures = 0;
+            m_cntMessages = 0;
+            m_cycle = 211;
+        }
+        void setNewData(const QByteArray& data, int cycle)
+        {
+            m_data = data;
+            m_cycle = cycle;
             int i;
             for(i = 0; i < 5; i++)
             {
@@ -55,13 +61,15 @@ public:
                     break;
             }
             m_cntMessages = i;
+            emit dataChanged(index(0, 0),
+                                 index(rowCount(), columnCount()));  // update whole view
+            emit layoutChanged();
         }
-
         virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override;
         virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override;
         virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     private:
-        const QByteArray m_data;
+        QByteArray m_data;
         const CycleWindow* m_super;
         int m_cycle;
         int  m_cntFailures;

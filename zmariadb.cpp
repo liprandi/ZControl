@@ -20,6 +20,7 @@ ZMariaDB::~ZMariaDB()
     if(m_res)
     {
         mysql_free_result(m_res);
+        delete m_res;
         m_res = nullptr;
     }
     if(m_sql)
@@ -58,6 +59,7 @@ bool ZMariaDB::query(const std::string& qString)
     if(m_res)
     {
         mysql_free_result(m_res);
+        delete m_res;
         m_res = nullptr;
     }
     if(mysql_query(m_sql, qString.data()))
