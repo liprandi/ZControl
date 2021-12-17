@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.0, 2021-12-14T04:08:33. -->
+<!-- Written by QtCreator 6.0.1, 2021-12-17T07:22:58. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{7aad601a-029c-4120-be8a-53a436e73078}</value>
+  <value type="QByteArray">{ed678a30-cc7a-4588-819f-a565f9bfaa65}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -83,9 +83,6 @@
     <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
     <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="CppEditor.QuickFix">
-    <value type="bool" key="UseGlobalSettings">true</value>
-   </valuemap>
   </valuemap>
  </data>
  <data>
@@ -107,7 +104,7 @@
 -DCMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}
 -DCMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-Desktop_Qt_6_2_2_GCC_64bit-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
@@ -153,7 +150,7 @@
 -DCMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}
 -DCMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-Desktop_Qt_6_2_2_GCC_64bit-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-Desktop-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
@@ -199,13 +196,14 @@
 -DCMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}
 -DCMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-Desktop_Qt_6_2_2_GCC_64bit-RelWithDebInfo</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-Desktop-RelWithDebInfo</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
        <value type="QString">all</value>
       </valuelist>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.MakeStep</value>
      </valuemap>
      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
@@ -219,6 +217,7 @@
        <value type="QString">clean</value>
       </valuelist>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.MakeStep</value>
      </valuemap>
      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
@@ -243,13 +242,14 @@
 -DCMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}
 -DCMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-Desktop_Qt_6_2_2_GCC_64bit-MinSizeRel</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/cam/Project/Betim/build-ZControl-MinSizeRel</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
        <value type="QString">all</value>
       </valuelist>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.MakeStep</value>
      </valuemap>
      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
@@ -263,6 +263,7 @@
        <value type="QString">clean</value>
       </valuelist>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.MakeStep</value>
      </valuemap>
      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
@@ -307,7 +308,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/cam/Project/Betim/build-ZControl-Desktop_Qt_6_2_2_GCC_64bit-Debug</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/cam/Project/Betim/build-ZControl-Debug</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
