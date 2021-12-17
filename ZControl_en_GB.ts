@@ -106,45 +106,43 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="46"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="92"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="148"/>
-        <source>error alocated data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="49"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="95"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="43"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="83"/>
         <source>error read data from Tcp/Ip socket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="52"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="98"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="46"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="86"/>
         <source>error no data replied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="55"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="101"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="200"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="49"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="89"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="184"/>
         <source>error no data written</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="58"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="104"/>
-        <location filename="EtherNetIP/zethernetip.cpp" line="203"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="52"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="92"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="187"/>
         <source>error in written data size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="151"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="132"/>
+        <source>error size data less than 22</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="EtherNetIP/zethernetip.cpp" line="135"/>
         <source>error in read data size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="EtherNetIP/zethernetip.cpp" line="154"/>
+        <location filename="EtherNetIP/zethernetip.cpp" line="138"/>
         <source>error in read data available</source>
         <translation type="unfinished"></translation>
     </message>

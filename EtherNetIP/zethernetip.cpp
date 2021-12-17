@@ -34,16 +34,10 @@ ZEthernetIp::ZEthernetIp(const QString& ip, int backplane, int slot)
                 {
                     if(m_socket.read((char *)&tmp, sizeof(tmp)) == sizeof(tmp))
                     {
-                        char* data = new char[tmp.length];
-                        if(data)
-                        {
-                            m_socket.read(data, tmp.length);
-                            if(tmp.length == 4 && memcmp(data, "\0\0\0\0", tmp.length))
-                                m_session = tmp.session;
-                            delete[] data;
-                        }
-                        else
-                            qDebug() << QObject::tr("error alocated data");
+                        char data[tmp.length];
+                        m_socket.read(data, tmp.length);
+                        if(tmp.length == 4 && memcmp(data, "\0\0\0\0", tmp.length))
+                            m_session = tmp.session;
                     }
                     else
                         qDebug() << QObject::tr("error read data from Tcp/Ip socket");
@@ -82,14 +76,8 @@ ZEthernetIp::~ZEthernetIp()
                 {
                     if(m_socket.read((char *)&tmp, sizeof(tmp)) == sizeof(tmp))
                     {
-                        char* data = new char[tmp.length];
-                        if(data)
-                        {
-                            m_socket.read(data, tmp.length);
-                            delete[] data;
-                        }
-                        else
-                            qDebug() << QObject::tr("error alocated data");
+                        char data[tmp.length];
+                        m_socket.read(data, tmp.length);
                     }
                     else
                         qDebug() << QObject::tr("error read data from Tcp/Ip socket");
@@ -122,30 +110,26 @@ bool ZEthernetIp::getReadPlc()
             {
                 if(m_socket.read((char *)&tmp, sizeof(tmp)) == sizeof(tmp))
                 {
-                    char* data = new char[tmp.length];
-                    if(data)
+                    char data[tmp.length];
+                    m_socket.read(data, tmp.length);
+                    m_dataIn.clear();
+                    if(tmp.length > 22)
                     {
-                        m_socket.read(data, tmp.length);
-                        m_dataIn.clear();
-                        if(tmp.length > 22)
+                        memmove(&m_readType, &data[20], 2);
+                        if(m_readType != CIP_STRUCT)
                         {
-                            memmove(&m_readType, &data[20], 2);
-                            if(m_readType != CIP_STRUCT)
-                            {
-                                m_readHandle = 0;
-                                m_dataIn.append(&data[22], tmp.length - 22);
-                            }
-                            else
-                            {
-                                memmove(&m_readHandle, &data[22], 2);
-                                m_dataIn.append(&data[24], tmp.length - 24);
-                            }
-                            ret = true;
+                            m_readHandle = 0;
+                            m_dataIn.append(&data[22], tmp.length - 22);
                         }
-                        delete[] data;
+                        else
+                        {
+                            memmove(&m_readHandle, &data[22], 2);
+                            m_dataIn.append(&data[24], tmp.length - 24);
+                        }
+                        ret = true;
                     }
                     else
-                        qDebug() << QObject::tr("error alocated data");
+                        qDebug() << QObject::tr("error size data less than 22");
                 }
                 else
                     qDebug() << QObject::tr("error in read data size");
@@ -248,16 +232,10 @@ bool ZEthernetIp::writePlc(const QByteArray &tag, CIP_TYPE type, const QByteArra
 
                     if(m_socket.read((char *)&tmp, sizeof(tmp)) == sizeof(tmp))
                     {
-                        char* data = new char[tmp.length];
-                        if(data)
-                        {
-                            ret = true;
-                            m_socket.read(data, tmp.length);
-                            delete[] data;
-                            dbg_error[44]++;
-                        }
-                        else
-                            dbg_error[43]++;
+                        char data[tmp.length];
+                        ret = true;
+                        m_socket.read(data, tmp.length);
+                        dbg_error[44]++;
                     }
                     else
                         dbg_error[42]++;
