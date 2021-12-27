@@ -83,7 +83,7 @@ void ZTelegramService::startRequest(const QString &request)
         m_reply = nullptr;
     }
     m_data = QJsonDocument::fromJson("{\"ok\":false}");
-    connect(&m_qnam, &QNetworkAccessManager::authenticationRequired, [&](QNetworkReply *, QAuthenticator *authenticator)
+    connect(&m_qnam, &QNetworkAccessManager::authenticationRequired, [this](QNetworkReply *, QAuthenticator *authenticator)
     {
         authenticator->setUser("user");
         authenticator->setPassword("password");
@@ -101,19 +101,19 @@ void ZTelegramService::startRequest(const QString &request)
 
     if(m_reply)
     {
-        connect(m_reply, &QIODevice::readyRead, [&]()
+        connect(m_reply, &QIODevice::readyRead, [this]()
         {
             m_data = QJsonDocument::fromJson(m_reply->readAll());
         });
 
 
     #if QT_CONFIG(ssl)
-        connect(m_reply, &QNetworkReply::sslErrors, [&](const QList<QSslError> &errors)
+        connect(m_reply, &QNetworkReply::sslErrors, [this](const QList<QSslError> &errors)
         {
             m_reply->ignoreSslErrors();
          });
     #endif
-        connect(m_reply, &QNetworkReply::finished, [&]()
+        connect(m_reply, &QNetworkReply::finished, [this]()
         {
             m_reply->disconnect();
             delete m_reply;

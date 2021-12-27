@@ -30,7 +30,7 @@ void ZHttpService::startRequest()
 {
     m_data.clear();
 
-    connect(&qnam, &QNetworkAccessManager::authenticationRequired, [&](QNetworkReply *, QAuthenticator *authenticator)
+    connect(&qnam, &QNetworkAccessManager::authenticationRequired, [this](QNetworkReply *, QAuthenticator *authenticator)
     {
         authenticator->setUser("paolo@liprandi.com");
         authenticator->setPassword("0713D0504l");
@@ -49,19 +49,19 @@ void ZHttpService::startRequest()
     if(m_reply)
     {
         m_finished = false;
-        connect(m_reply, &QIODevice::readyRead, [&]()
+        connect(m_reply, &QIODevice::readyRead, [this]()
         {
             m_data += m_reply->readAll();
         });
 
 
     #if QT_CONFIG(ssl)
-        connect(m_reply, &QNetworkReply::sslErrors, [&](const QList<QSslError> &errors)
+        connect(m_reply, &QNetworkReply::sslErrors, [this](const QList<QSslError> &errors)
         {
             m_reply->ignoreSslErrors();
          });
     #endif
-        connect(m_reply, &QNetworkReply::finished, [&]()
+        connect(m_reply, &QNetworkReply::finished, [this]()
         {
             QNetworkReply::NetworkError error = m_reply->error();
             delete m_reply;

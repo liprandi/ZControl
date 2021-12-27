@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_telegram->addMessage("⚜<b>Inicio Programa!</b>");
     if(!m_serverRemote)
         m_serverRemote = new ZHttpService(m_settings);
-    connect(m_telegram, &ZTelegramService::requestCommand, [&](const QString cmd)
+    connect(m_telegram, &ZTelegramService::requestCommand, [this](const QString cmd)
     {
         if(cmd.indexOf("status", 0, Qt::CaseInsensitive) >= 0)
         {
@@ -51,14 +51,14 @@ MainWindow::MainWindow(QWidget *parent)
             m_telegram->addMessage(l + r);
         }
     });
-    connect(ui->btnLogo, &QAbstractButton::toggled, [&](bool checked)
+    connect(ui->btnLogo, &QAbstractButton::toggled, [this](bool checked)
     {
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(0);
        }
     });
-    connect(ui->btnHingeLeft, &QAbstractButton::toggled, [&](bool checked)
+    connect(ui->btnHingeLeft, &QAbstractButton::toggled, [this](bool checked)
     {
        if(checked)
        {
@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
            ui->hingeWidget->setCycle(211, &m_local, &m_plcs, &m_steps[0], &m_messages[0], &m_failures);
        }
     });
-    connect(ui->btnHingeRight, &QAbstractButton::toggled, [&](bool checked)
+    connect(ui->btnHingeRight, &QAbstractButton::toggled, [this](bool checked)
     {
        if(checked)
        {
@@ -74,14 +74,14 @@ MainWindow::MainWindow(QWidget *parent)
            ui->hingeWidget->setCycle(212, &m_local, &m_plcs, &m_steps[1], &m_messages[1], &m_failures);
        }
     });
-    connect(ui->btnDebug, &QAbstractButton::toggled, [&](bool checked)
+    connect(ui->btnDebug, &QAbstractButton::toggled, [this](bool checked)
     {
        if(checked)
        {
            ui->stackedWidget->setCurrentIndex(2);
        }
     });
-    connect(ui->btnTelegram, &QAbstractButton::toggled, [&](bool checked)
+    connect(ui->btnTelegram, &QAbstractButton::toggled, [this](bool checked)
     {
        if(checked)
        {
@@ -91,21 +91,21 @@ MainWindow::MainWindow(QWidget *parent)
            m_telegram->addMessage("👍<b>Check Telegram!</b>");
        }
     });
-    connect(&m_plcs, &Plcs::newMsgSx, [&](const QList<short> msgs)
+    connect(&m_plcs, &Plcs::newMsgSx, [this](const QList<short> msgs)
     {
         QByteArray t = m_plcs.m_b.getData(1);
         auto step = reinterpret_cast<const short*>(&t.data()[2]);
         QString header =  QString("👈<b>Dobradiças Esquerdas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*step).arg(m_steps[0][*step]);
         newMsg(header, msgs, m_messages[0]);
     });
-    connect(&m_plcs, &Plcs::newMsgDx, [&](const QList<short> msgs)
+    connect(&m_plcs, &Plcs::newMsgDx, [this](const QList<short> msgs)
     {
         QByteArray t = m_plcs.m_b.getData(1);
         auto step = reinterpret_cast<const short*>(&t.data()[42]);
         QString header =  QString("👉<b>Dobradiças Direitas</b>\n[<b>%1</b>]:<i>%2</i>").arg(*step).arg(m_steps[1][*step]);
         newMsg(header, msgs, m_messages[1]);
     });
-    connect(&m_plcs, &Plcs::newMsgGeneral, [&](const QList<short> msgs)
+    connect(&m_plcs, &Plcs::newMsgGeneral, [this](const QList<short> msgs)
     {
         newMsg("❗<b>Falhas Gerais</b>", msgs, m_failures);
     });

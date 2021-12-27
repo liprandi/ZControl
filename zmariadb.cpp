@@ -33,6 +33,11 @@ bool ZMariaDB::connect(const std::string& host, const std::string& user, const s
         return false;
     try
     {
+        m_host = host;
+        m_user = user;
+        m_password = password;
+        m_database = database;
+        m_port = port;
         // Establish a MySQL connection
         if(!mysql_real_connect(
                 m_sql,
@@ -54,6 +59,32 @@ bool ZMariaDB::connect(const std::string& host, const std::string& user, const s
 
     return true;
 }
+
+bool ZMariaDB::reconnect()
+{
+    if(!m_sql)
+        return false;
+    try
+    {
+        // Establish a MySQL connection
+        if(!mysql_real_connect(
+                m_sql,
+                m_host.data(), m_user.data(),
+                m_password.data(), m_database.data(),
+                m_port, nullptr, 0))
+        {
+            errdb
+        }
+    }
+    catch (char *e)
+    {
+        qDebug() <<  e;
+        return false;
+    }
+
+    return true;
+}
+
 bool ZMariaDB::query(const std::string& qString)
 {
     if(m_res)
@@ -64,7 +95,13 @@ bool ZMariaDB::query(const std::string& qString)
     }
     if(mysql_query(m_sql, qString.data()))
     {
-        errdb
+        if(reconnect())
+        {
+            if(mysql_query(m_sql, qString.data()))
+            {
+                errdb
+            }
+        }
     }
     m_res = mysql_use_result(m_sql);
     MYSQL_FIELD *fields;

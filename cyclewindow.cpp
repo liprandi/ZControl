@@ -16,7 +16,7 @@ CycleWindow::CycleWindow(QWidget *parent) :
     auto old1 = ui->lvMessages->model();
     ui->lvMessages->setModel(new ListMessages(this));
     delete old1;
-    connect(ui->btnNext, &QToolButton::clicked, [&](bool checked)
+    connect(ui->btnNext, &QToolButton::clicked, [this](bool checked)
     {
         (void)checked;
         if(m_plcs && m_cycle > 0 && m_steps->count() > 0)
@@ -25,7 +25,7 @@ CycleWindow::CycleWindow(QWidget *parent) :
             m_plcs->setCommand(base, m_step + 2);
         }
     });
-    connect(ui->btnPrev, &QToolButton::clicked, [&](bool checked)
+    connect(ui->btnPrev, &QToolButton::clicked, [this](bool checked)
     {
         (void)checked;
         if(m_plcs && m_cycle > 0 && m_steps->count() > 0)
@@ -35,12 +35,12 @@ CycleWindow::CycleWindow(QWidget *parent) :
                 m_plcs->setCommand(base, m_step);
         }
     });
-    connect(ui->btnNext, &QToolButton::released, [&]()
+    connect(ui->btnNext, &QToolButton::released, [this]()
     {
         int base = (m_cycle == 211) ? 6: 26;
         m_plcs->setCommand(base, 0);
     });
-    connect(ui->btnPrev, &QToolButton::released, [&]()
+    connect(ui->btnPrev, &QToolButton::released, [this]()
     {
         int base = (m_cycle == 211) ? 6: 26;
         m_plcs->setCommand(base, 0);

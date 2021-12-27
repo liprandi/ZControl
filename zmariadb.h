@@ -15,6 +15,7 @@ public:
     ~ZMariaDB();
 
     bool connect(const std::string& host, const std::string& user, const std::string& password, const std::string& database, int port = 3306);
+    bool reconnect();
 signals:
 
 public:
@@ -35,6 +36,11 @@ private:    // data used for interface
     std::vector<std::string> m_fields;
     std::vector<std::string> m_record;
     std::vector<std::map<std::string, std::string>> m_records;
+    std::string m_host;
+    std::string m_user;
+    std::string m_password;
+    std::string m_database;
+    int m_port;
 };
 
 #endif // ZMARIADB_H
